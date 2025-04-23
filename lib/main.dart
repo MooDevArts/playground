@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,68 +10,119 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Hima",
+      // debugShowMaterialGrid: true,
+      color: Colors.red,
+      home: MyHomePage(),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // buttonTheme: ButtonThemeData(buttonColor: Colors.red),
+        brightness: Brightness.dark,
+        // bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        // backgroundColor: Colors.red,
+        // ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  int selectedIndex = 0;
+  late Widget title;
+  late Widget currentIcon;
 
   @override
   Widget build(BuildContext context) {
+    Widget body;
+    switch (selectedIndex) {
+      case 0:
+        currentIcon = Icon(Icons.abc);
+        body = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () {}, child: currentIcon),
+              Text("label"),
+            ],
+          ),
+        );
+        title = Text("Label");
+        break;
+      case 1:
+        currentIcon = Icon(Icons.ac_unit);
+        body = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () {}, child: currentIcon),
+              Text("Now"),
+            ],
+          ),
+        );
+        title = Text("Now");
+        break;
+      case 2:
+        currentIcon = Icon(Icons.access_alarm);
+
+        body = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () {}, child: currentIcon),
+              Text("Then"),
+            ],
+          ),
+        );
+        title = Text("Then");
+        break;
+      case 3:
+        currentIcon = Icon(Icons.access_time);
+        body = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: () {}, child: currentIcon),
+              Text("When"),
+            ],
+          ),
+        );
+        title = Text("When");
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: title,
+        leading: currentIcon,
+        actions: [
+          Padding(padding: const EdgeInsets.all(8.0), child: currentIcon),
+          Padding(padding: const EdgeInsets.all(8.0), child: currentIcon),
+          Padding(padding: const EdgeInsets.all(8.0), child: currentIcon),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: body,
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (n) {
+          setState(() {
+            selectedIndex = n;
+          });
+        },
+        selectedIndex: selectedIndex,
+        destinations: [
+          NavigationDestination(icon: Icon(Icons.abc), label: "label"),
+          NavigationDestination(icon: Icon(Icons.ac_unit), label: "Now"),
+          NavigationDestination(icon: Icon(Icons.access_alarm), label: "Then"),
+          NavigationDestination(icon: Icon(Icons.access_time), label: "When"),
+        ],
       ),
     );
-  }
-}
-
-class CounterState with ChangeNotifier {
-  int _counter = 0;
-
-  int get counter => _counter;
-
-  void increment() {
-    _counter++;
-    notifyListeners();
   }
 }
