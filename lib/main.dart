@@ -10,11 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Hima",
       // debugShowMaterialGrid: true,
       color: Colors.red,
       home: MyHomePage(),
       theme: ThemeData(
+        fontFamily: "Montserrat",
         // buttonTheme: ButtonThemeData(buttonColor: Colors.red),
         brightness: Brightness.dark,
         // bottomNavigationBarTheme: BottomNavigationBarThemeData(
